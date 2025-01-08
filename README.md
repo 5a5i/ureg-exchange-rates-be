@@ -15,13 +15,16 @@ This is the backend service built with **Laravel 9**.
 ## 🔑 **Environment Variables**
 1. Refer to .env.example for configuration.
    ```plaintext
+    APP_NAME=U-Reg
+    APP_ENV=local
+    APP_TIMEZONE=Asia/Kuala_Lumpur
     APP_KEY=base64:randomkeyhere
     DB_CONNECTION=mysql
     DB_HOST=mysql
     DB_PORT=3306
     DB_DATABASE=ureg_exchange_rates
-    DB_USERNAME=<username>
-    DB_PASSWORD=<password>
+    DB_USERNAME=ureg
+    DB_PASSWORD=password
 ---
 
 ## 📂 **Key Commands**

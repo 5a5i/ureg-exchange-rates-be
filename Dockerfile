@@ -24,7 +24,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN useradd -u $uid -ms /bin/bash -g www-data $user
 
-COPY . /var/www
+# COPY . /var/www
 
 COPY --chown=$user:www-data . /var/www
 
