@@ -1,0 +1,76 @@
+services:
+  #database service
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: ureg_exchange_rates
+      MYSQL_USER: ureg
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - ureg_network
+  #laravel service
+  app:
+    build:
+      args:
+        user: ureg
+        uid: 1000
+      context: .
+      dockerfile: Dockerfile
+    image: ureg_app
+    container_name: app
+    restart: unless-stopped
+    environment:
+      - APP_ENV=local
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=ureg_exchange_rates
+      - DB_USERNAME=ureg
+      - DB_PASSWORD=password
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - ureg_network
+  #nginx service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    depends_on:
+      - app
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx/:/etc/nginx/conf.d
+    networks:
+      - ureg_network
+  #db admin service
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "9001:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: password
+    depends_on:
+      - mysql
+    networks:
+      - ureg_network
+volumes:
+  mysql_data:
+    driver: local
+networks:
+  ureg_network:
+    driver: bridge
