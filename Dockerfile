@@ -35,7 +35,7 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage
 
 # Step 9: Run migrations and seed the database
-CMD php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan migrate:refresh --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000
 
 # Step 10: Expose port 8000
 EXPOSE 8000
