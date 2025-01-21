@@ -16,4 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->withSingletons(
+        [
+            App\Http\Kernel::class,
+            App\Console\Kernel::class,
+            App\Exceptions\Handler::class
+        ]
+    )->create();

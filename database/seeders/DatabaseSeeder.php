@@ -38,6 +38,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CurrencySeeder::class,
             RateSeeder::class,
+            UserTableSeeder::class,
+            // DeveloperSeeder::class,
         ]);
     }
 }
